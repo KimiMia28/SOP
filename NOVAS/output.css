@@ -554,6 +554,10 @@ video {
   display: none;
 }
 
+.invisible {
+  visibility: hidden;
+}
+
 .fixed {
   position: fixed;
 }
@@ -606,6 +610,10 @@ video {
   display: flex;
 }
 
+.h-\[100vh\] {
+  height: 100vh;
+}
+
 .h-\[120px\] {
   height: 120px;
 }
@@ -630,8 +638,8 @@ video {
   width: 0.25rem;
 }
 
-.w-\[50px\] {
-  width: 50px;
+.w-\[40px\] {
+  width: 40px;
 }
 
 .w-full {
@@ -642,20 +650,17 @@ video {
   width: 100vw;
 }
 
-.w-\[35px\] {
-  width: 35px;
-}
-
-.w-\[40px\] {
-  width: 40px;
-}
-
 .min-w-\[25rem\] {
   min-width: 25rem;
 }
 
 .-translate-y-\[45px\] {
   --tw-translate-y: -45px;
+  transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+}
+
+.-translate-y-\[7rem\] {
+  --tw-translate-y: -7rem;
   transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
 }
 
@@ -687,6 +692,10 @@ video {
   gap: 1rem;
 }
 
+.gap-8 {
+  gap: 2rem;
+}
+
 .self-center {
   align-self: center;
 }
@@ -716,13 +725,23 @@ video {
   background-color: rgb(51 54 91 / 0.5);
 }
 
-.bg-\[\#33365b\]\/85 {
-  background-color: rgb(51 54 91 / 0.85);
+.bg-\[\#33365b\]\/95 {
+  background-color: rgb(51 54 91 / 0.95);
+}
+
+.bg-\[\#40615e\] {
+  --tw-bg-opacity: 1;
+  background-color: rgb(64 97 94 / var(--tw-bg-opacity, 1));
 }
 
 .bg-\[\#58659f\] {
   --tw-bg-opacity: 1;
   background-color: rgb(88 101 159 / var(--tw-bg-opacity, 1));
+}
+
+.bg-\[\#6b9999\] {
+  --tw-bg-opacity: 1;
+  background-color: rgb(107 153 153 / var(--tw-bg-opacity, 1));
 }
 
 .bg-indigo-300 {
@@ -775,6 +794,11 @@ video {
   padding-right: 0.5rem;
 }
 
+.px-4 {
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+
 .px-8 {
   padding-left: 2rem;
   padding-right: 2rem;
@@ -816,8 +840,20 @@ video {
   font-size: 50px;
 }
 
+.text-\[75px\] {
+  font-size: 75px;
+}
+
 .font-bold {
   font-weight: 700;
+}
+
+.tracking-widest {
+  letter-spacing: 0.1em;
+}
+
+.text-\[150\] {
+  color: 150;
 }
 
 .text-white {
