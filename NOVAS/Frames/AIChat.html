@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link href="../output.css" rel="stylesheet">
+        <title>Document</title>
+    </head>
+    <body>
+        <div class="w-full h-screen fixed -z-10">
+            <img src="../Images/SneForsideSOP.jpg" class="w-full h-full">
+        </div>
+        
+        <div class="mx-8 my-16 grid grid-cols-3 gap-8 w-full h-[80vh]">
+            <div class="col-span-1 bg-[#4c2144] rounded-2xl flex flex-col items-center h-full">
+                <h1>
+                    Which NOVAStory are we writing on today?
+                </h1>
+                <div>
+                    <a href="">Velendria</a>
+                    <a href="">Fifth Wing</a>
+                </div>
+            </div>
+            <div class="col-span-2 bg-[#4c2144] rounded-2xl flex flex-col items-center justify-between">
+                <h1 class="text-white text-4xl py-16">
+                    Velendria
+                </h1>
+                <div id="ChatContainer" class="bg-[#4c2144] rounded-2xl p-4 overflow-y-auto h-[60vh]">
+
+                </div>
+                <input type="text" id="PromptInput" placeholder="Indtast din prompt" class="bg-[#4c2144] text-white">
+                <button onclick="callAPI()">
+                    Call!!
+                </button>
+            </div>
+        </div>
+    </body>
+
+    <script>
+        const apiKey = "";
+
+        const PromptInput = document.getElementById("PromptInput");
+        const ChatContainer = document.getElementById("ChatContainer");
+
+
+        async function callAPI()
+        {
+            if(!PromptInput.value)
+            {
+                alert("Udfyldt input feltet først")   
+            }
+            let response = await fetch(
+                "https://api.openai.com/v1/chat/completions",
+                {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Authorization": "Bearer " + apiKey,
+                        "OpenAI-Organization": OrgId,
+                        "OpenAI-Project": ProjectId
+                    },
+                    body: JSON.stringify({
+                        "model": "gpt-4o-mini",
+                        "messages": [{"role": "user", "content": PromptInput.value}],
+                        "temperature": 0.7
+                    })
+                }
+            )
+            
+            try {
+                let resp_json = await response.json()
+                let choises = resp_json["choices"][0]
+                let message = choises["message"]
+                let content = message["content"]
+                console.log(content)
+
+                ChatContainer.innerHTML += `
+                    <div class="rounded bg-[#1f1d33] text-white">
+                        ${PromptInput.value}
+                    </div>`
+                ChatContainer.innerHTML += `
+                    <div class="rounded bg-[#e7e9f0]>
+                        Svar: ${content}
+                    </div>
+                `
+                console.log(ChatContainer.innerHTML)
+                
+                
+                
+                PromptInput.value + "\n" + content
+                PromptInput.value = ""
+
+            }
+            catch (err) {
+                console.log(err)
+            }
+
+
+        }
+
+
+
+    </script>
+</html>

@@ -594,6 +594,28 @@ video {
   z-index: -10;
 }
 
+.col-span-1 {
+  grid-column: span 1 / span 1;
+}
+
+.col-span-2 {
+  grid-column: span 2 / span 2;
+}
+
+.m-4 {
+  margin: 1rem;
+}
+
+.mx-8 {
+  margin-left: 2rem;
+  margin-right: 2rem;
+}
+
+.my-16 {
+  margin-top: 4rem;
+  margin-bottom: 4rem;
+}
+
 .mb-12 {
   margin-bottom: 3rem;
 }
@@ -608,6 +630,10 @@ video {
 
 .flex {
   display: flex;
+}
+
+.grid {
+  display: grid;
 }
 
 .h-\[100vh\] {
@@ -632,6 +658,26 @@ video {
 
 .h-screen {
   height: 100vh;
+}
+
+.h-\[80vh\] {
+  height: 80vh;
+}
+
+.h-\[70vh\] {
+  height: 70vh;
+}
+
+.h-\[50vh\] {
+  height: 50vh;
+}
+
+.h-\[90vh\] {
+  height: 90vh;
+}
+
+.h-\[60vh\] {
+  height: 60vh;
 }
 
 .w-1 {
@@ -662,6 +708,10 @@ video {
 .-translate-y-\[7rem\] {
   --tw-translate-y: -7rem;
   transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+}
+
+.grid-cols-3 {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
 }
 
 .flex-row {
@@ -700,6 +750,10 @@ video {
   align-self: center;
 }
 
+.overflow-y-auto {
+  overflow-y: auto;
+}
+
 .rounded-2xl {
   border-radius: 1rem;
 }
@@ -710,6 +764,14 @@ video {
 
 .rounded-full {
   border-radius: 9999px;
+}
+
+.rounded {
+  border-radius: 0.25rem;
+}
+
+.rounded-lg {
+  border-radius: 0.5rem;
 }
 
 .border-b {
@@ -763,6 +825,21 @@ video {
   background-color: transparent;
 }
 
+.bg-\[\#4c2144\] {
+  --tw-bg-opacity: 1;
+  background-color: rgb(76 33 68 / var(--tw-bg-opacity, 1));
+}
+
+.bg-\[\#1f1d33\] {
+  --tw-bg-opacity: 1;
+  background-color: rgb(31 29 51 / var(--tw-bg-opacity, 1));
+}
+
+.bg-\[\#e7e9f0\] {
+  --tw-bg-opacity: 1;
+  background-color: rgb(231 233 240 / var(--tw-bg-opacity, 1));
+}
+
 .bg-gradient-to-b {
   background-image: linear-gradient(to bottom, var(--tw-gradient-stops));
 }
@@ -807,6 +884,11 @@ video {
 .py-4 {
   padding-top: 1rem;
   padding-bottom: 1rem;
+}
+
+.py-16 {
+  padding-top: 4rem;
+  padding-bottom: 4rem;
 }
 
 .pt-2 {
