@@ -55,9 +55,7 @@
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json",
-                        "Authorization": "Bearer " + apiKey,
-                        "OpenAI-Organization": OrgId,
-                        "OpenAI-Project": ProjectId
+                        "Authorization": "Bearer " + apiKey
                     },
                     body: JSON.stringify({
                         "model": "gpt-4o-mini",
@@ -75,12 +73,13 @@
                 console.log(content)
 
                 ChatContainer.innerHTML += `
-                    <div class="rounded bg-[#1f1d33] text-white">
-                        ${PromptInput.value}
-                    </div>`
-                ChatContainer.innerHTML += `
-                    <div class="rounded bg-[#e7e9f0]>
-                        Svar: ${content}
+                    <div class="w-full flex flex-col gap-4 my-8">
+                        <div class="rounded bg-[#1f1d33] text-white ml-16">
+                            ${PromptInput.value}
+                        </div>
+                        <div class="rounded bg-[#1f1d33] text-white mr-16">
+                            ${content}
+                        </div>
                     </div>
                 `
                 console.log(ChatContainer.innerHTML)
@@ -97,8 +96,6 @@
 
 
         }
-
-
 
     </script>
 </html>
