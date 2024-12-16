@@ -3,7 +3,8 @@ module.exports = {
   content: ["./NOVAS/**/*.{html,js}", "./NOVAS/Frames/**/*.{html,js}"],
   theme: {
     fontFamily: {
-      "display":["rufina"]
+      "display":["rufina"],
+      "petrona": ['Petrona', 'serif'],
     },
     extend: {},
   },
