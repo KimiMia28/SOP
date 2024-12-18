@@ -14,13 +14,13 @@
                 <span class="material-symbols-outlined scale-125 mr-2 text-white">auto_stories</span>
             </button>
             <div class="flex flex-row gap-8">
-                <button onclick="changeIFrame('MyNovaStory.html')" class="text-2xl hover:underline">
+                <button onclick="changeIFrame('UnderConstruction.html')" class="text-2xl hover:underline">
                     My NOVAStory
                 </button>   
                 <button onclick="changeIFrame('AIChat.html')" class="text-2xl hover:underline">
                     AI Writing assistant
                 </button>   
-                <button onclick="" class="text-2xl hover:underline">
+                <button onclick="changeIFrame('UnderConstruction.html')" class="text-2xl hover:underline">
                     Account
                 </button>                    
             </div>
@@ -33,9 +33,7 @@
 
         function changeIFrame(path)
         {
-            console.log("f", path)
             iFrameContainer.src = "Frames/" + path;
-            console.log("e")
         }
     </script>
 </html>

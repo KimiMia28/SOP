@@ -56,13 +56,13 @@
                 <p class="font-display text-white text-[80px]">
                     AI Writing Assistant
                 </p>
-                <div id="ChatContainer" class="bg-[#40615e] rounded-2xl p-4 overflow-y-auto h-[60vh] font-petrona">
+                <div id="ChatContainer" class="bsg-[#40615e] bg-[#20615e] w-[95%] rounded-2xl p-4 overflow-y-auto h-[60vh] font-petrona">
                     
                 </div>
                 <div class="flex flex-row mb-8">
-                    <input type="text" id="PromptInput" placeholder="Indtast din prompt" class="bg-[#263c3f] text-white p-2 rounded-2xl w-[800px] font-petrona">
+                    <input type="text" onkeydown="" id="PromptInput" placeholder="Indtast din prompt" class="bg-[#263c3f] text-white p-2 rounded-2xl w-[800px] font-petrona">
                     <button class="-translate-x-8 translate-y-1" onclick="callAPI()">
-                        <span class="material-symbols-outlined text-2xl mr-2 text-white">arrow_upward</span>
+                        <span id="SendLogo" class="material-symbols-outlined text-2xl mr-2 text-white">arrow_upward</span>
                     </button>
                 </div>
             </div>
@@ -70,11 +70,33 @@
     </body>
 
     <script>
+        addEventListener("keydown", (event) => {
+            if(event.code == "Enter")
+            {
+                callAPI();
+            }
+        })
+
         const apiKey = "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";
 
         const PromptInput = document.getElementById("PromptInput");
         const ChatContainer = document.getElementById("ChatContainer");
+        const sendLogo = document.getElementById("SendLogo");
 
+        const developerInstruction = {
+            "role": "developer",
+            "content": [
+                {
+                "type": "text",
+                "text": `
+                    You are a helpful assistant that answers creative writing 
+                    questions in the style of a linguistics professor from Oxford University.
+                `
+                }
+            ]
+        }
+
+        let chatContext = [];
 
         async function callAPI()
         {
@@ -82,6 +104,15 @@
             {
                 alert("Udfyldt input feltet først")   
             }
+            let input = PromptInput.value
+            PromptInput.value = "";
+            sendLogo.classList.toggle("animate-spin");
+
+            chatContext.push({
+                    "role": "user",
+                    "content": [{ "type": "text", "text": input }]
+                    });
+
             let response = await fetch(
                 "https://api.openai.com/v1/chat/completions",
                 {
@@ -92,39 +123,50 @@
                     },
                     body: JSON.stringify({
                         "model": "gpt-4o-mini",
-                        "messages": [{"role": "user", "content": PromptInput.value}],
+                        "messages": [developerInstruction, ...chatContext],
                         "temperature": 0.7
                     })
                 }
-            )
+            ).finally(() => {
+                sendLogo.classList.toggle("animate-spin");
+            })
             
             try {
-                let resp_json = await response.json()
-                let choises = resp_json["choices"][0]
-                let message = choises["message"]
-                let content = message["content"]
-                console.log(content)
+                let resp_json = await response.json();
+                let choises = resp_json["choices"][0];
+                let message = choises["message"];
+                let content = message["content"];
 
                 ChatContainer.innerHTML += `
                     <div class="w-full flex flex-col gap-4 my-8">
-                        <div class="rounded bg-[#1f1d33] text-white ml-16">
-                            ${PromptInput.value}
-                        </div>
-                        <div class="rounded bg-[#1f1d33] text-white mr-16">
-                            ${content}
+                        <div class=" flex justify-end text-white">
+                            <div class="rounded bg-[#1f1d33] p-2 max-w-[70%]">
+                                ${input}
+                            </div>
+                            </div>
+                        <div class="flex justify-start text-white">
+                            <div class="rounded bg-[#1f1d33] p-2 max-w-[70%]">
+                                ${content}
+                            </div>
                         </div>
                     </div>
-                `
-                console.log(ChatContainer.innerHTML)
+                `;
                 
+                chatContext.push({
+                    "role": "user",
+                    "content": [{ "type": "text", "text": content }]
+                    });                
                 
-                
-                PromptInput.value + "\n" + content
-                PromptInput.value = ""
 
+                // For ikke at gøre chat contexten for lang for modellen, så fjerner vi de ældste beskeder
+                if (chatContext.length > 10)
+                {
+                    chatContext.pop();
+                    chatContext.pop();
+                }
             }
             catch (err) {
-                console.log(err)
+                console.log(err);
             }
 
 
