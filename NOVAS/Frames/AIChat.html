@@ -14,10 +14,13 @@
         <title>Document</title>
     </head>
     <body>
+
+        <!--Baggrundsbillede-->
         <div class="w-full h-screen fixed -z-10">
             <img src="../Images/Groenbg.jpg" class="w-full h-full">
         </div>
         
+        <!--Options menu-->
         <div class="flex flex-row justify-around w-full h-full ">
             <div class="bg-[#40615e] rounded-2xl flex flex-col items-center h-[780px] w-[400px] mt-[7rem] ">
                 <p class="text-white text-[40px] font-display mt-5 mb-3">
@@ -50,15 +53,20 @@
                     AI writing assistant  
                 </button>
                 
-
+            <!--Assistenten-->
             </div>
             <div class="bg-[#40615e] rounded-2xl flex flex-col items-center justify-between mt-[7rem] w-[1300px]">
+                <!--Overskrift-->
                 <p class="font-display text-white text-[80px]">
                     AI Writing Assistant
                 </p>
-                <div id="ChatContainer" class="bsg-[#40615e] bg-[#20615e] w-[95%] rounded-2xl p-4 overflow-y-auto h-[60vh] font-petrona">
+                
+                <!--Chatcontainer-->
+                <div id="ChatContainer" class="bsg-[#40615e] bg-[#6b9999] w-[95%] rounded-2xl p-4 overflow-y-auto h-[60vh] font-petrona">
                     
                 </div>
+
+                <!--Chat-->
                 <div class="flex flex-row mb-8">
                     <input type="text" onkeydown="" id="PromptInput" placeholder="Indtast din prompt" class="bg-[#263c3f] text-white p-2 rounded-2xl w-[800px] font-petrona">
                     <button class="-translate-x-8 translate-y-1" onclick="callAPI()">
@@ -70,6 +78,7 @@
     </body>
 
     <script>
+        // Lytter til tastatur inputs, og hvis det er "Enter", så sendes der en besked til OpenAIs API
         addEventListener("keydown", (event) => {
             if(event.code == "Enter")
             {
@@ -77,12 +86,14 @@
             }
         })
 
-        const apiKey = "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";
+        const apiKey = ""; //her indsættes egen nøgle
 
+        // Får fat i de relevante elementer fra html dokumentet
         const PromptInput = document.getElementById("PromptInput");
         const ChatContainer = document.getElementById("ChatContainer");
         const sendLogo = document.getElementById("SendLogo");
 
+        // Sætter developer contexten for modellen, hvilket indflyde hvordan den svarer
         const developerInstruction = {
             "role": "developer",
             "content": [
@@ -98,21 +109,26 @@
 
         let chatContext = [];
 
+        // Kalder OpenAIs api, og indsætter html ind på siden med svaret den får tilbage
         async function callAPI()
         {
+            // Hvis brugeren ikke har indtastet noget, så alert brugeren og return tidligt
             if(!PromptInput.value)
             {
                 alert("Udfyldt input feltet først")   
+                return
             }
             let input = PromptInput.value
             PromptInput.value = "";
             sendLogo.classList.toggle("animate-spin");
 
+            //Tilføj brugerens input til conteksten
             chatContext.push({
                     "role": "user",
                     "content": [{ "type": "text", "text": input }]
                     });
 
+            // Kald OpenAIs api med developer instruktioner og kontext
             let response = await fetch(
                 "https://api.openai.com/v1/chat/completions",
                 {
@@ -131,40 +147,44 @@
                 sendLogo.classList.toggle("animate-spin");
             })
             
+            // Behandler data den for tilbage fra APIet
             try {
                 let resp_json = await response.json();
                 let choises = resp_json["choices"][0];
                 let message = choises["message"];
                 let content = message["content"];
 
+                // Indsæt data i chat vinduet
                 ChatContainer.innerHTML += `
                     <div class="w-full flex flex-col gap-4 my-8">
                         <div class=" flex justify-end text-white">
-                            <div class="rounded bg-[#1f1d33] p-2 max-w-[70%]">
+                            <div class="rounded bg-[#263c3f] p-2 max-w-[70%]">
                                 ${input}
                             </div>
                             </div>
                         <div class="flex justify-start text-white">
-                            <div class="rounded bg-[#1f1d33] p-2 max-w-[70%]">
+                            <div class="rounded bg-[#40615e] p-2 max-w-[70%]">
                                 ${content}
                             </div>
                         </div>
                     </div>
                 `;
                 
+                // Tilføj svaret fra APIet til kontexten, så modellen kan bruge sit eget svar til næste forespørgsel
                 chatContext.push({
                     "role": "user",
                     "content": [{ "type": "text", "text": content }]
                     });                
                 
 
-                // For ikke at gøre chat contexten for lang for modellen, så fjerner vi de ældste beskeder
+                // For ikke at gøre chat contexten for lang for modellen, så fjernes de ældste beskeder
                 if (chatContext.length > 10)
                 {
                     chatContext.pop();
                     chatContext.pop();
                 }
             }
+            // Skulle der ske en fejl, så fanges det her og skrives ud i konsollen
             catch (err) {
                 console.log(err);
             }
